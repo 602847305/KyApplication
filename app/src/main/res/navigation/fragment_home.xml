@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_home"
+    app:startDestination="@id/fragmentA">
+
+    <fragment
+        android:id="@+id/fragmentA"
+        android:name="com.example.kyapplication.ui.fragment.FragmentA"
+        android:label="FragmentA"
+        tools:layout="@layout/fragment_a"
+        >
+
+        <action
+            android:id="@+id/action_fragmentA_to_barFragment"
+            app:destination="@id/barFragment" />
+        <action
+            android:id="@+id/action_fragmentA_to_circleFragment"
+            app:destination="@id/circleFragment" />
+        <action
+            android:id="@+id/action_fragmentA_to_MusicFragment"
+            app:destination="@id/musicFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentB"
+        android:name="com.example.kyapplication.ui.fragment.FragmentB"
+        android:label="FragmentB"
+        tools:layout="@layout/fragment_b"
+        >
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentC"
+        android:name="com.example.kyapplication.ui.fragment.FragmentC"
+        android:label="FragmentC"
+        tools:layout="@layout/fragment_c"
+        >
+    </fragment>
+    <fragment
+        tools:layout="@layout/bar_fragment"
+        android:id="@+id/barFragment"
+        android:name="com.example.kyapplication.ui.fragment.BarFragment"
+        android:label="BarFragment"
+
+        />
+    <fragment
+        tools:layout="@layout/circle_fragment"
+        android:id="@+id/circleFragment"
+        android:name="com.example.kyapplication.ui.fragment.CircleFragment"
+        android:label="CircleFragment" />
+
+    <fragment
+        tools:layout="@layout/fragment_music_a"
+        android:id="@+id/musicFragment"
+        android:name="com.example.kyapplication.ui.fragment.MusicFragment"
+        android:label="MusicFragment" />
+</navigation>

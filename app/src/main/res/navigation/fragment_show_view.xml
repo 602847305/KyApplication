@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_show_view">
+    <action
+        android:id="@+id/to_barFragment"
+        app:destination="@id/barFragment" />
+    <action
+        android:id="@+id/to_circle_fragment"
+        app:destination="@id/circleFragment" />
+    <action
+        android:id="@+id/to_music_fragment"
+        app:destination="@id/musicFragment" />
+
+
+    <fragment
+        android:id="@+id/barFragment"
+        android:name="com.example.kyapplication.ui.fragment.BarFragment"
+        android:label="BarFragment"
+        tools:layout="@layout/bar_fragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/circleFragment"
+        android:name="com.example.kyapplication.ui.fragment.CircleFragment"
+        android:label="CircleFragment"
+        tools:layout="@layout/circle_fragment" />
+
+    <fragment
+        android:id="@+id/musicFragment"
+        android:name="com.example.kyapplication.ui.fragment.MusicFragment"
+        android:label="MusicFragment"
+        tools:layout="@layout/fragment_music_a" />
+</navigation>

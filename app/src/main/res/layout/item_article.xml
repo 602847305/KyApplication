@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/qb_px_226"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/qb_px_45"
+        android:layout_height="@dimen/qb_px_45"
+        android:layout_marginStart="@dimen/qb_px_20"
+        android:layout_marginTop="@dimen/qb_px_20"
+        android:background="@mipmap/ic_launcher_1round"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:textSize="16sp"
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="xxx"
+        android:layout_marginStart="@dimen/qb_px_10"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintStart_toEndOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/view" />
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="xxx"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        android:layout_marginEnd="@dimen/qb_px_20"
+        />
+
+    <TextView
+        android:gravity="start"
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="xxx"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/type"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <View
+        android:id="@+id/clock"
+        android:layout_width="@dimen/qb_px_45"
+        android:layout_height="@dimen/qb_px_45"
+        android:layout_marginBottom="@dimen/qb_px_20"
+        android:background="@mipmap/clock"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/qb_px_10"
+        android:text="xxx"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/clock"
+        app:layout_constraintStart_toEndOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/clock"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <View
+        android:id="@+id/xin"
+        android:layout_width="@dimen/qb_px_45"
+        android:layout_height="@dimen/qb_px_45"
+        android:background="@mipmap/clock"
+        app:layout_constraintBottom_toBottomOf="@+id/clock"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/qb_px_20"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

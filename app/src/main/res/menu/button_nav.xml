@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/fragmentA"
+        android:icon="@mipmap/btn_1"
+        android:title="自定义view"
+        />
+
+    <item android:id="@+id/fragmentB"
+        android:icon="@mipmap/btn_3"
+        android:title="展示"
+        />
+
+    <item android:id="@+id/fragmentC"
+        android:icon="@mipmap/btn_2"
+        android:title="设置"
+        />
+
+
+
+
+
+
+</menu>

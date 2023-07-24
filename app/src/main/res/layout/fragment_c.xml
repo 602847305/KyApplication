@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp"
+        android:text="开始"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="外圈"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/out_color_bar"
+        app:layout_constraintEnd_toStartOf="@+id/out_color_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/out_color_bar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="内圈"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/inner_color_bar"
+        app:layout_constraintEnd_toStartOf="@+id/inner_color_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/inner_color_bar" />
+
+    <com.example.kyapplication.widget.CircleView
+        android:id="@+id/circle_view"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.kyapplication.widget.ColorBar
+        android:id="@+id/inner_color_bar"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="68dp"
+        app:barHeight="20dp"
+        app:circleRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.855"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/out_color_bar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.example.kyapplication.widget.ColorBar
+        android:id="@+id/out_color_bar"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="68dp"
+        app:barHeight="20dp"
+        app:circleRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.855"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/circle_view"
+        app:layout_constraintVertical_bias="0.081" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
