@@ -69,6 +69,10 @@ public class MusicalWave2 extends View {
             canvas.drawLine(startX, startY, endX, endY, linePaint);
         }
 
+    }
 
+    public void refreshView(byte[] data)
+    {
+        invalidate();
     }
 }

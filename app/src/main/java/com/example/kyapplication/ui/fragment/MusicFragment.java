@@ -3,6 +3,7 @@ package com.example.kyapplication.ui.fragment;
 import android.Manifest;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class MusicFragment extends Fragment {
     private final String[] permission ={Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO};
     private MusicalWave2 mMusicalWave2;
     private int audioSessionId = 0;
+    private MediaPlayer mediaPlayer;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,31 +64,37 @@ public class MusicFragment extends Fragment {
 
     private void initMediaPlayer()
     {
-        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mediaPlayer.start();
+                audioSessionId = mediaPlayer.getAudioSessionId();
+                initVisualizer(audioSessionId);
+            }
+        });
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                if(mediaPlayer!=null)
+                    mediaPlayer.release();
+            }
+        });
         AssetManager assetManager = getContext().getAssets();
         try {
             AssetFileDescriptor assetFileDescriptor = assetManager.openFd("music1.mp3");
             mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(),assetFileDescriptor.getStartOffset(),assetFileDescriptor.getLength());
+            mediaPlayer.prepareAsync();//异步准备
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         mediaPlayer.setOnErrorListener(null);
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                audioSessionId = mediaPlayer.getAudioSessionId();
-                initVisualizer(audioSessionId);
-            }
-        });
-        try {
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
+
+    }
+    float max_int = 0;
     private void initVisualizer(int audioSessionId)
     {
         F.d("audioSessionId..."+audioSessionId);
@@ -109,9 +117,15 @@ public class MusicFragment extends Fragment {
                     i += 2;
                     j++;
                     model[j] = (float) Math.abs(fft[j]);
+
+                    if(max_int<model[j])
+                    {
+                        max_int = (int) model[j];
+                        F.d("maxint.."+max_int);
+                    }
+
                 }
                 //model即为最终用于绘制的数据
-                F.d("````````len``"+model.length);
             }
         }, Visualizer.getMaxCaptureRate() / 2, false, true);
 
@@ -145,5 +159,12 @@ public class MusicFragment extends Fragment {
         });
         musicRoundView.startAnimation(rotateAnimation);
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mediaPlayer !=null)
+            mediaPlayer.release();
     }
 }
