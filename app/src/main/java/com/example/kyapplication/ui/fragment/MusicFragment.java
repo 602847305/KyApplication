@@ -1,5 +1,10 @@
 package com.example.kyapplication.ui.fragment;
 
+import android.Manifest;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.media.MediaPlayer;
+import android.media.audiofx.Visualizer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +22,16 @@ import com.example.kyapplication.R;
 import com.example.kyapplication.utils.F;
 import com.example.kyapplication.widget.MusicalWave2;
 
+import java.io.IOException;
+
+import pub.devrel.easypermissions.EasyPermissions;
+
 public class MusicFragment extends Fragment {
 
     private View musicRoundView;
+    private final String[] permission ={Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO};
     private MusicalWave2 mMusicalWave2;
+    private int audioSessionId = 0;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,10 +51,72 @@ public class MusicFragment extends Fragment {
 
         mMusicalWave2 = new MusicalWave2(getContext());
         if(getContext()!=null) {
-            mMusicalWave2.init(getContext(), "music1.mp3", 100);
+            mMusicalWave2.init(getContext());
+        }
+        if(!EasyPermissions.hasPermissions(getContext(),permission))
+        {
+            return;
+        }
+        initMediaPlayer();
+    }
+
+    private void initMediaPlayer()
+    {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        AssetManager assetManager = getContext().getAssets();
+        try {
+            AssetFileDescriptor assetFileDescriptor = assetManager.openFd("music1.mp3");
+            mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(),assetFileDescriptor.getStartOffset(),assetFileDescriptor.getLength());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        mediaPlayer.setOnErrorListener(null);
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                audioSessionId = mediaPlayer.getAudioSessionId();
+                initVisualizer(audioSessionId);
+            }
+        });
+        try {
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
+    private void initVisualizer(int audioSessionId)
+    {
+        F.d("audioSessionId..."+audioSessionId);
+        Visualizer visualizer = new Visualizer(audioSessionId);
+        visualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
+        visualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
+            @Override
+            public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
+
+            }
+
+            @Override
+            public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
+                float[] model = new float[fft.length / 2 + 1];
+                model[0] = (byte) Math.abs(fft[1]);
+                int j = 1;
+
+                for (int i = 2; i < 50 *2;) {
+                    model[j] = (float) Math.hypot(fft[i], fft[i + 1]);
+                    i += 2;
+                    j++;
+                    model[j] = (float) Math.abs(fft[j]);
+                }
+                //model即为最终用于绘制的数据
+                F.d("````````len``"+model.length);
+            }
+        }, Visualizer.getMaxCaptureRate() / 2, false, true);
+
+        visualizer.setEnabled(true);
+    }
     private void rotate()
     {
         F.d("```````````rotate");

@@ -7,24 +7,22 @@
 
     <com.example.kyapplication.widget.MusicalWave2
         android:id="@+id/music_wave2"
+        android:layout_width="@dimen/qb_px_600"
+        android:layout_height="@dimen/qb_px_600"
         android:padding="@dimen/qb_px_0"
-        android:layout_width="@dimen/qb_px_450"
-        android:layout_height="@dimen/qb_px_450"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/qb_px_75"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.example.kyapplication.widget.RoundImageView
         android:id="@+id/music_image_view"
+        android:layout_width="@dimen/qb_px_420"
+        android:layout_height="@dimen/qb_px_420"
         android:padding="@dimen/qb_px_0"
-        android:layout_width="@dimen/qb_px_400"
-        android:layout_height="@dimen/qb_px_400"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/qb_px_100"
-        />
+        app:layout_constraintBottom_toBottomOf="@+id/music_wave2"
+        app:layout_constraintEnd_toEndOf="@+id/music_wave2"
+        app:layout_constraintStart_toStartOf="@+id/music_wave2"
+        app:layout_constraintTop_toTopOf="@+id/music_wave2" />
 
 
 
