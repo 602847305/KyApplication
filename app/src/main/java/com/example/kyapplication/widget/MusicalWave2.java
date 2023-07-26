@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.View;
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
+
+import com.example.kyapplication.utils.F;
+
 public class MusicalWave2 extends View {
     private final static String  TAG = "MusicalWave";
     private Paint linePaint;
@@ -15,6 +18,8 @@ public class MusicalWave2 extends View {
     private float radius;
     private int numRays;
     private float rayLength;
+
+    private float[] waveData;
     public MusicalWave2(Context context) {
         super(context);
         Log.d(TAG,"MusicalWave`````1");
@@ -29,6 +34,19 @@ public class MusicalWave2 extends View {
         super(context, attrs, defStyleAttr);
         init(context);
     }
+
+    public void setWaveData(float[] waveData)
+    {
+        this.waveData = waveData;
+        rayLength = waveData[0];
+//        if (this.waveData ==null)
+//        {
+//            F.d("```````null");
+//        }
+//        F.d("`````setWaveData`````"+waveData[1]);
+//        invalidate();
+
+    }
     public void init(Context context)
     {
         @ColorInt int LINE = 0xFFd5e8e8;
@@ -38,7 +56,7 @@ public class MusicalWave2 extends View {
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeCap(Paint.Cap.ROUND);
         numRays = 100;
-        rayLength = 70;
+        rayLength = 1;
     }
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -60,7 +78,9 @@ public class MusicalWave2 extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+
         for (int i = 0; i < numRays; i++) {
+
             float angle = (2 * (float) Math.PI * i) / numRays;
             float startX = centerX + radius * (float) Math.cos(angle);
             float startY = centerY + radius * (float) Math.sin(angle);
@@ -68,11 +88,5 @@ public class MusicalWave2 extends View {
             float endY = startY + rayLength * (float) Math.sin(angle);
             canvas.drawLine(startX, startY, endX, endY, linePaint);
         }
-
-    }
-
-    public void refreshView(byte[] data)
-    {
-        invalidate();
     }
 }

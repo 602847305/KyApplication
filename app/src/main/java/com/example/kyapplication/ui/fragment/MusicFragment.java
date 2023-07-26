@@ -69,8 +69,9 @@ public class MusicFragment extends Fragment {
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                mediaPlayer.start();
-                audioSessionId = mediaPlayer.getAudioSessionId();
+                F.d("onPrepared````````准备完成");
+                mp.start();
+                audioSessionId = mp.getAudioSessionId();
                 initVisualizer(audioSessionId);
             }
         });
@@ -95,19 +96,29 @@ public class MusicFragment extends Fragment {
 
     }
     float max_int = 0;
+    private Visualizer visualizer;
     private void initVisualizer(int audioSessionId)
     {
         F.d("audioSessionId..."+audioSessionId);
-        Visualizer visualizer = new Visualizer(audioSessionId);
+        visualizer = new Visualizer(audioSessionId);
         visualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
+//        visualizer.setCaptureSize(1);
         visualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
             @Override
-            public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
-
+            public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate) {
+                //处理波形数据
+                //处理频谱数据  visualizer - 当前处理数据的visualizer的实例
+                //waveform 波形数据
+                //samplingRate采样率
+                F.d("waveform..1```````````````````````````````."+waveform.length);
             }
 
             @Override
             public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
+                //处理频谱数据  visualizer - 当前处理数据的visualizer的实例
+                //fft 频谱数据，大小为fft.length/2
+                //samplingRate 采样率
+
                 float[] model = new float[fft.length / 2 + 1];
                 model[0] = (byte) Math.abs(fft[1]);
                 int j = 1;
@@ -117,19 +128,21 @@ public class MusicFragment extends Fragment {
                     i += 2;
                     j++;
                     model[j] = (float) Math.abs(fft[j]);
-
-                    if(max_int<model[j])
-                    {
-                        max_int = (int) model[j];
-                        F.d("maxint.."+max_int);
-                    }
-
                 }
-                //model即为最终用于绘制的数据
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMusicalWave2.setWaveData(model);
+                        mMusicalWave2.invalidate();
+                        F.d("model.."+model[1]);
+                        //model即为最终用于绘制的数据
+                    }
+                });
             }
         }, Visualizer.getMaxCaptureRate() / 2, false, true);
-
+        //启动
         visualizer.setEnabled(true);
+
     }
     private void rotate()
     {
@@ -162,9 +175,23 @@ public class MusicFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if(mediaPlayer !=null)
+            mediaPlayer.pause();
+        if(visualizer!=null) {
+            visualizer.setEnabled(false);//停止
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if(mediaPlayer !=null)
             mediaPlayer.release();
+        if(visualizer!=null) {
+            visualizer.setEnabled(false);//停止
+            visualizer.release();
+        }
     }
 }
