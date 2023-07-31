@@ -2,11 +2,6 @@ package com.example.kyapplication.visualize;
 
 import android.media.audiofx.Visualizer;
 
-/**
- * Date: 2020/11/24
- * Author: Yang
- * Describe: hold the visualizer and callback something
- */
 public class VisualizerHelper {
 
 

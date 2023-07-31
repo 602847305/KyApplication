@@ -6,11 +6,7 @@ import android.net.Uri;
 
 import com.example.kyapplication.utils.F;
 
-/**
- * Date: 2020/11/24
- * Author: Yang
- * Describe: manager all about the media play
- */
+
 public class MediaManager {
 
     private MediaPlayer mediaPlayer;
@@ -30,7 +26,7 @@ public class MediaManager {
      *
      * @param raw res id of audio
      */
-    public void doPlay(final int raw) {
+    public void play(final int raw) {
         try {
             mediaPlayer = MediaPlayer.create(mContext, raw);
             if (mediaPlayer == null) {
@@ -58,7 +54,7 @@ public class MediaManager {
      *
      * @param filePath file path of audio
      */
-    public void doPlay(final String filePath) {
+    public void play(final String filePath) {
         try {
             mediaPlayer = MediaPlayer.create(mContext, Uri.parse(filePath));
             if (mediaPlayer == null) {
