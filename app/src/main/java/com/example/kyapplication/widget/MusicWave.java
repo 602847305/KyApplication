@@ -36,12 +36,12 @@ public class MusicWave extends View {
 
     public MusicWave(Context context) {
         super(context);
-        init();
+
     }
 
     public MusicWave(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+
     }
 
     public MusicWave(Context context, AttributeSet attrs, int defStyleAttr) {

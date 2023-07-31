@@ -34,6 +34,7 @@ public class MusicFragment extends Fragment {
     private MusicalWave2 mMusicalWave2;
     private int audioSessionId = 0;
     private MediaPlayer mediaPlayer;
+    public static float[] mWaveData;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,9 +52,9 @@ public class MusicFragment extends Fragment {
             rotate();
         }
 
-        mMusicalWave2 = new MusicalWave2(getContext());
+        mMusicalWave2 = new MusicalWave2(getActivity());
         if(getContext()!=null) {
-            mMusicalWave2.init(getContext());
+//            mMusicalWave2.init(getContext());
         }
         if(!EasyPermissions.hasPermissions(getContext(),permission))
         {
@@ -110,7 +111,7 @@ public class MusicFragment extends Fragment {
                 //处理频谱数据  visualizer - 当前处理数据的visualizer的实例
                 //waveform 波形数据
                 //samplingRate采样率
-                F.d("waveform..1```````````````````````````````."+waveform.length);
+//                F.d("waveform..1```````````````````````````````."+waveform.length);
             }
 
             @Override
@@ -132,9 +133,9 @@ public class MusicFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mWaveData = model;
                         mMusicalWave2.setWaveData(model);
-                        mMusicalWave2.invalidate();
-                        F.d("model.."+model[1]);
+//                        mMusicalWave2.invalidate();
                         //model即为最终用于绘制的数据
                     }
                 });
