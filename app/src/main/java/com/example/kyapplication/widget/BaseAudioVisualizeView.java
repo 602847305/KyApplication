@@ -3,6 +3,7 @@ package com.example.kyapplication.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.BlurMaskFilter;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -75,6 +76,12 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
         mVisualizerHelper.setVisualCount(mSpectrumCount);
     }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        drawChild(canvas);
+    }
+
     protected abstract void handleAttr(TypedArray typedArray);
 
     //visualization 音频回调
@@ -97,4 +104,6 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
             mMediaManager.release();
         }
     }
+
+    protected abstract void drawChild(Canvas canvas);
 }
