@@ -16,7 +16,7 @@ public class MusicalWave2 extends View {
     private final static String  TAG = "MusicalWave";
     private Paint linePaint;
     private float centerX,centerY;
-    private float radius;
+    protected float radius;
     private int numRays;
     private float rayLength;
     private float[] waveData;

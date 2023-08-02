@@ -1,11 +1,6 @@
 package com.example.kyapplication.ui.fragment;
 
 import android.Manifest;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.audiofx.Visualizer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +8,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,9 +15,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.kyapplication.R;
 import com.example.kyapplication.utils.F;
-import com.example.kyapplication.widget.MusicalWave2;
+import com.example.kyapplication.widget.AudioAndCircle;
 
-import java.io.IOException;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -31,9 +24,8 @@ public class MusicFragment extends Fragment {
 
     private View musicRoundView;
     private final String[] permission ={Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO};
-    private MusicalWave2 mMusicalWave2;
+    private AudioAndCircle mAudioAndCircle;
     private int audioSessionId = 0;
-    private MediaPlayer mediaPlayer;
     public static float[] mWaveData;
     @Nullable
     @Override
@@ -52,7 +44,8 @@ public class MusicFragment extends Fragment {
             rotate();
         }
 
-        mMusicalWave2 = new MusicalWave2(getActivity());
+        mAudioAndCircle = view.findViewById(R.id.music_audio_circle);
+
         if(getContext()!=null) {
 //            mMusicalWave2.init(getContext());
         }
@@ -60,91 +53,59 @@ public class MusicFragment extends Fragment {
         {
             return;
         }
-        initMediaPlayer();
+        mAudioAndCircle.play("music1.mp3");
     }
 
-    private void initMediaPlayer()
-    {
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                F.d("onPrepared````````准备完成");
-                mp.start();
-                audioSessionId = mp.getAudioSessionId();
-                initVisualizer(audioSessionId);
-            }
-        });
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                if(mediaPlayer!=null)
-                    mediaPlayer.release();
-            }
-        });
-        AssetManager assetManager = getContext().getAssets();
-        try {
-            AssetFileDescriptor assetFileDescriptor = assetManager.openFd("music1.mp3");
-            mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(),assetFileDescriptor.getStartOffset(),assetFileDescriptor.getLength());
-            mediaPlayer.prepareAsync();//异步准备
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//    private Visualizer visualizer;
+//    private void initVisualizer(int audioSessionId)
+//    {
+//        F.d("audioSessionId..."+audioSessionId);
+//        visualizer = new Visualizer(audioSessionId);
+//        visualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
+////        visualizer.setCaptureSize(1);
+//        visualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
+//            @Override
+//            public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate) {
+//                //处理波形数据
+//                //处理频谱数据  visualizer - 当前处理数据的visualizer的实例
+//                //waveform 波形数据
+//                //samplingRate采样率
+////                F.d("waveform..1```````````````````````````````."+waveform.length);
+//            }
+//
+//            @Override
+//            public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
+//                //处理频谱数据  visualizer - 当前处理数据的visualizer的实例
+//                //fft 频谱数据，大小为fft.length/2
+//                //samplingRate 采样率
+//
+//                float[] model = new float[fft.length / 2 + 1];
+//                model[0] = (byte) Math.abs(fft[1]);
+//                int j = 1;
+//
+//                for (int i = 2; i < 50 *2;) {
+//                    model[j] = (float) Math.hypot(fft[i], fft[i + 1]);
+//                    i += 2;
+//                    j++;
+//                    model[j] = (float) Math.abs(fft[j]);
+//                }
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        mMusicalWave2.invalidate();
+//                        //model即为最终用于绘制的数据
+//                    }
+//                });
+//            }
+//        }, Visualizer.getMaxCaptureRate() / 2, false, true);
+//        //启动
+//        visualizer.setEnabled(true);
+//
+//    }
 
-        mediaPlayer.setOnErrorListener(null);
-
-
-    }
-    float max_int = 0;
-    private Visualizer visualizer;
-    private void initVisualizer(int audioSessionId)
-    {
-        F.d("audioSessionId..."+audioSessionId);
-        visualizer = new Visualizer(audioSessionId);
-        visualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
-//        visualizer.setCaptureSize(1);
-        visualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
-            @Override
-            public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate) {
-                //处理波形数据
-                //处理频谱数据  visualizer - 当前处理数据的visualizer的实例
-                //waveform 波形数据
-                //samplingRate采样率
-//                F.d("waveform..1```````````````````````````````."+waveform.length);
-            }
-
-            @Override
-            public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
-                //处理频谱数据  visualizer - 当前处理数据的visualizer的实例
-                //fft 频谱数据，大小为fft.length/2
-                //samplingRate 采样率
-
-                float[] model = new float[fft.length / 2 + 1];
-                model[0] = (byte) Math.abs(fft[1]);
-                int j = 1;
-
-                for (int i = 2; i < 50 *2;) {
-                    model[j] = (float) Math.hypot(fft[i], fft[i + 1]);
-                    i += 2;
-                    j++;
-                    model[j] = (float) Math.abs(fft[j]);
-                }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mWaveData = model;
-                        mMusicalWave2.setWaveData(model);
-//                        mMusicalWave2.invalidate();
-                        //model即为最终用于绘制的数据
-                    }
-                });
-            }
-        }, Visualizer.getMaxCaptureRate() / 2, false, true);
-        //启动
-        visualizer.setEnabled(true);
-
-    }
+    /**
+     * 旋转图片
+     */
     private void rotate()
     {
         F.d("```````````rotate");
@@ -178,21 +139,12 @@ public class MusicFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if(mediaPlayer !=null)
-            mediaPlayer.pause();
-        if(visualizer!=null) {
-            visualizer.setEnabled(false);//停止
-        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(mediaPlayer !=null)
-            mediaPlayer.release();
-        if(visualizer!=null) {
-            visualizer.setEnabled(false);//停止
-            visualizer.release();
-        }
+        if (mAudioAndCircle!=null)
+            mAudioAndCircle.release();
     }
 }

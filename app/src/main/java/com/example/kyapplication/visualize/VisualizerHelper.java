@@ -4,7 +4,6 @@ import android.media.audiofx.Visualizer;
 
 public class VisualizerHelper {
 
-
     private Visualizer mVisualizer;
     private VisualizeCallback mCallback;
     private int mCount;

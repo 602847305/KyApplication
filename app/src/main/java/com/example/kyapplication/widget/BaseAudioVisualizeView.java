@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import com.example.kyapplication.R;
 import com.example.kyapplication.media.MediaManager;
 import com.example.kyapplication.media.MediaManagerListener;
+import com.example.kyapplication.utils.F;
 import com.example.kyapplication.visualize.VisualizeCallback;
 import com.example.kyapplication.visualize.VisualizerHelper;
 
@@ -26,15 +27,17 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
     private Path mPath;
     //画笔颜色
     private int mColor;
-    private int mSpectrumCount;
+    protected int mSpectrumCount;
     private float mSpectrumRatio;
     private float mItemMargin;
-    private float centerX, centerY;
-    private MediaManager mMediaManager;
+    protected float centerX, centerY;
+    private MediaManager mediaManager;
     private VisualizerHelper mVisualizerHelper;
     //宽度
     private int mStrokeWidth;
 
+    //音频波纹数据
+    private float[] mWaveData;
 
     public BaseAudioVisualizeView(Context context) {
         this(context,null);
@@ -68,8 +71,8 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
         mRect = new RectF();
         mPath = new Path();
 
-        mMediaManager = new MediaManager(getContext());
-        mMediaManager.setMediaManagerListener(this);
+        mediaManager = new MediaManager(getContext());
+        mediaManager.setMediaManagerListener(this);
 
         mVisualizerHelper = new VisualizerHelper();
         mVisualizerHelper.setVisualizeCallback(this);
@@ -79,31 +82,68 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if(mWaveData==null)
+        {
+            return;
+        }
         drawChild(canvas);
+    }
+
+    public void play(String fileName)
+    {
+        if (mediaManager != null) {
+            mediaManager.playByAssetsFile(getContext(),fileName);
+        }
     }
 
     protected abstract void handleAttr(TypedArray typedArray);
 
+    protected boolean isVisualizationEnabled = true;
     //visualization 音频回调
     @Override
     public void onFftDataCapture(float[] parseData) {
-
+        if (!isVisualizationEnabled) {
+            return;
+        }
+        mWaveData = parseData;
+        invalidate();
     }
 
     //audio准备完毕
     @Override
     public void onPrepare() {
-
+        try {
+            int mediaPlayerId = mediaManager.getMediaPlayerId();
+            mVisualizerHelper.setAudioSessionId(mediaPlayerId);
+        } catch (Exception e) {
+            F.d(e.getMessage());
+        }
     }
 
     public void release() {
         if (mVisualizerHelper != null) {
             mVisualizerHelper.release();
         }
-        if (mMediaManager != null) {
-            mMediaManager.release();
+        if (mediaManager != null) {
+            mediaManager.release();
         }
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        setMeasuredDimension(width,height);
+    }
+
+    public void playWithSessionId(int audioSessionId) {
+        try {
+            mVisualizerHelper.setAudioSessionId(audioSessionId);
+        } catch (Exception e) {
+            F.d(e.getMessage());
+        }
+    }
+    
     protected abstract void drawChild(Canvas canvas);
 }

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.kyapplication.widget.MusicalWave2
-        android:id="@+id/music_wave2"
+    <com.example.kyapplication.widget.AudioAndCircle
+        android:id="@+id/music_audio_circle"
         android:layout_width="@dimen/qb_px_700"
         android:layout_height="@dimen/qb_px_700"
         android:padding="@dimen/qb_px_0"
@@ -19,10 +19,10 @@
         android:layout_width="@dimen/qb_px_320"
         android:layout_height="@dimen/qb_px_320"
         android:padding="@dimen/qb_px_0"
-        app:layout_constraintBottom_toBottomOf="@+id/music_wave2"
-        app:layout_constraintEnd_toEndOf="@+id/music_wave2"
-        app:layout_constraintStart_toStartOf="@+id/music_wave2"
-        app:layout_constraintTop_toTopOf="@+id/music_wave2" />
+        app:layout_constraintBottom_toBottomOf="@+id/music_audio_circle"
+        app:layout_constraintEnd_toEndOf="@+id/music_audio_circle"
+        app:layout_constraintStart_toStartOf="@+id/music_audio_circle"
+        app:layout_constraintTop_toTopOf="@+id/music_audio_circle" />
 
 
 
