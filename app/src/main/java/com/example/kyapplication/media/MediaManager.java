@@ -118,16 +118,13 @@ public class MediaManager {
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                F.d("onPrepared````````准备完成");
                 if (mListener != null) {
                     mListener.onPrepare();
                 }
                 mp.start();
-//                audioSessionId = mp.getAudioSessionId();
-//                initVisualizer(audioSessionId);
-
             }
         });
+        mediaPlayer.prepareAsync();
         mediaPlayer.setOnErrorListener(null);
     }
     public int getMediaPlayerId() {

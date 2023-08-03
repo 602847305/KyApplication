@@ -42,6 +42,7 @@
         android:id="@+id/circle_view"
         android:layout_width="400dp"
         android:layout_height="400dp"
+        app:innerProgress="45"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

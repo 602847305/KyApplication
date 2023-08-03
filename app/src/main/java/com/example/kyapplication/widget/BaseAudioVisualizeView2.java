@@ -20,7 +20,7 @@ import com.example.kyapplication.utils.F;
 import com.example.kyapplication.visualize.VisualizeCallback;
 import com.example.kyapplication.visualize.VisualizerHelper;
 
-public abstract class  BaseAudioVisualizeView extends View implements VisualizeCallback, MediaManagerListener {
+public abstract class BaseAudioVisualizeView2 extends View implements VisualizeCallback, MediaManagerListener {
     private final  String  TAG = getClass().getName();
     private RectF mRect;
     private Paint mPaint;
@@ -39,17 +39,17 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
     //音频波纹数据
     private float[] mWaveData;
 
-    public BaseAudioVisualizeView(Context context) {
+    public BaseAudioVisualizeView2(Context context) {
         this(context,null);
     }
 
-    public BaseAudioVisualizeView(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
+    public BaseAudioVisualizeView2(Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs,0);
     }
 
-    public BaseAudioVisualizeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public BaseAudioVisualizeView2(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs,R.styleable.AudioVisualizeView,defStyleAttr,0);
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.AudioVisualizeView,defStyleAttr,0);
         mColor = typedArray.getColor(R.styleable.AudioVisualizeView_visualize_color, Color.WHITE);
         mSpectrumCount = typedArray.getInteger(R.styleable.AudioVisualizeView_visualize_count, 60);
         mSpectrumRatio = typedArray.getFloat(R.styleable.AudioVisualizeView_visualize_ratio, 1.0f);
@@ -57,7 +57,6 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
         handleAttr(typedArray);
         init();
     }
-
     protected void init() {
         mStrokeWidth = 5;
 
@@ -79,50 +78,33 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
         mVisualizerHelper.setVisualCount(mSpectrumCount);
     }
 
-    protected void setSpectrumCount(int count)
-    {
-        if(mVisualizerHelper!=null)
-        mVisualizerHelper.setVisualCount(count);
-    }
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         if(mWaveData==null)
         {
             return;
         }
         drawChild(canvas);
     }
-
     public void play(String fileName)
     {
         if (mediaManager != null) {
             mediaManager.playByAssetsFile(getContext(),fileName);
         }
     }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-    }
-
     protected abstract void handleAttr(TypedArray typedArray);
 
-    protected boolean isVisualizationEnabled = true;
-    //visualization 音频回调
+
+    protected abstract void drawChild(Canvas canvas);
     @Override
-    public void onFftDataCapture(float[] parseData) {
-
-        if (!isVisualizationEnabled) {
-            return;
-        }
-        mWaveData = parseData;
-        invalidate();
-
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        setMeasuredDimension(width,height);
     }
 
-    //audio准备完毕
     @Override
     public void onPrepare() {
         try {
@@ -132,6 +114,24 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
             F.d(e.getMessage());
         }
     }
+    protected boolean isVisualizationEnabled = true;
+    @Override
+    public void onFftDataCapture(float[] parseData) {
+        if (!isVisualizationEnabled) {
+            return;
+        }
+        mWaveData = parseData;
+        invalidate();
+
+    }
+    public void playWithSessionId(int audioSessionId) {
+        try {
+            mVisualizerHelper.setAudioSessionId(audioSessionId);
+        } catch (Exception e) {
+            F.d(e.getMessage());
+        }
+    }
+
 
     public void release() {
         if (mVisualizerHelper != null) {
@@ -141,25 +141,4 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
             mediaManager.release();
         }
     }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-        setMeasuredDimension(width,height);
-    }
-
-    public void playWithSessionId(int audioSessionId) {
-        try {
-            mVisualizerHelper.setAudioSessionId(audioSessionId);
-        } catch (Exception e) {
-            F.d(e.getMessage());
-        }
-    }
-    protected float[] getWaveData()
-    {
-        return mWaveData;
-    }
-    protected abstract void drawChild(Canvas canvas);
 }

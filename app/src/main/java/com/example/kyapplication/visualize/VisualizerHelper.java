@@ -2,6 +2,8 @@ package com.example.kyapplication.visualize;
 
 import android.media.audiofx.Visualizer;
 
+import com.example.kyapplication.utils.F;
+
 public class VisualizerHelper {
 
     private Visualizer mVisualizer;
