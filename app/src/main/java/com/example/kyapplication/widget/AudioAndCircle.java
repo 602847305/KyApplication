@@ -5,11 +5,9 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 
-import com.example.kyapplication.ui.fragment.MusicFragment;
 import com.example.kyapplication.utils.F;
 
 public class AudioAndCircle extends BaseAudioVisualizeView{
@@ -46,18 +44,42 @@ public class AudioAndCircle extends BaseAudioVisualizeView{
         radius = Math.min(w,h) * 0.26f;
     }
 
+    private float waveDataIndex = 0f;
+    private float[] waveDataOld;
     @Override
     protected void drawChild(Canvas canvas) {
-        F.d("size:"+getWaveData().length);
-        for (int i = 0; i < numRays; i++) {
-            float angle = (2 * (float) Math.PI * i) / numRays;
-            float startX = centerX + radius * (float) Math.cos(angle);
-            float startY = centerY + radius * (float) Math.sin(angle);
-            float endX = startX + 1.5f*getWaveData()[i] * (float) Math.cos(angle);
-            float endY = startY + 1.5f*getWaveData()[i] * (float) Math.sin(angle);
-            canvas.drawLine(startX, startY, endX, endY, linePaint);
+        if (waveDataOld ==null || waveDataIndex!=getWaveData()[20])
+        {
 
+            waveDataOld = getWaveData();
+            waveDataIndex = waveDataOld[20];
+            for (int i = 0; i < numRays; i++) {
+                float angle = (2 * (float) Math.PI * i) / numRays;
+                float startX = centerX + radius * (float) Math.cos(angle);
+                float startY = centerY + radius * (float) Math.sin(angle);
+                float endX = startX + getWaveData()[i] * (float) Math.cos(angle);
+                float endY = startY + getWaveData()[i] * (float) Math.sin(angle);
+                canvas.drawLine(startX, startY, endX, endY, linePaint);
+            }
+        }else
+//            if(waveDataOld[30] ==getWaveData()[30])
+        {
+            for (int i = 0; i < numRays; i++) {
+                float waveData = waveDataOld[i]-0.3f;
+                if (waveData <0)
+                {
+                    waveData = 1f;
+                }
+                waveDataOld[i] = waveData;
+                float angle = (2 * (float) Math.PI * i) / numRays;
+                float startX = centerX + radius * (float) Math.cos(angle);
+                float startY = centerY + radius * (float) Math.sin(angle);
+                float endX = startX + waveData * (float) Math.cos(angle);
+                float endY = startY + waveData * (float) Math.sin(angle);
+                canvas.drawLine(startX, startY, endX, endY, linePaint);
+            }
         }
+
 
     }
 

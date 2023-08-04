@@ -137,8 +137,6 @@ public class MediaManager {
 
     public void release() {
         if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
             mediaPlayer.release();
             mediaPlayer = null;
         }

@@ -28,7 +28,6 @@ public class VisualizerHelper {
 
         mVisualizer = new Visualizer(audioSessionId);
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
-
         mVisualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
             @Override
             public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes,

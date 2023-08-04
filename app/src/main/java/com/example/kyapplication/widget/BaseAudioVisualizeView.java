@@ -37,7 +37,7 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
     private int mStrokeWidth;
 
     //音频波纹数据
-    private float[] mWaveData;
+    protected float[] mWaveData;
 
     public BaseAudioVisualizeView(Context context) {
         this(context,null);
@@ -82,7 +82,7 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
     protected void setSpectrumCount(int count)
     {
         if(mVisualizerHelper!=null)
-        mVisualizerHelper.setVisualCount(count);
+            mVisualizerHelper.setVisualCount(count);
     }
     @Override
     protected void onDraw(Canvas canvas) {

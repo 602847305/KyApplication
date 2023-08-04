@@ -72,8 +72,7 @@ public class RoundImageView extends View {
         );
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        F.d("``width```"+width);
-        F.d("``height```"+height);
+
         setMeasuredDimension(width, height);
     }
 

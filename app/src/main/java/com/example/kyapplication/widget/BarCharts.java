@@ -108,6 +108,7 @@ public class BarCharts extends View {
             return;
 
         canvas.drawPath(pillPath,pillarPaint);
+        F.d("onDraw```");
     }
 
     /**

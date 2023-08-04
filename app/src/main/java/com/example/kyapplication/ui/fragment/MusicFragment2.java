@@ -16,23 +16,22 @@ import androidx.fragment.app.Fragment;
 import com.example.kyapplication.R;
 import com.example.kyapplication.utils.F;
 import com.example.kyapplication.widget.AudioAndCircle;
+import com.example.kyapplication.widget.AudioAndCircle2;
 import com.example.kyapplication.widget.RoundImageView;
-
 
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MusicFragment extends Fragment {
+public class MusicFragment2 extends Fragment {
 
     private RoundImageView musicRoundView;
     private final String[] permission ={Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO};
-    private AudioAndCircle mAudioAndCircle;
+    private AudioAndCircle2 mAudioAndCircle;
     private int audioSessionId = 0;
-    public static float[] mWaveData;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_music_a, container, false);
+        F.d("```````````MusicFragment");
+        return inflater.inflate(R.layout.fragment_music_b, container, false);
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class MusicFragment extends Fragment {
             rotate();
         }
 
-        mAudioAndCircle = view.findViewById(R.id.music_audio_circle);
+        mAudioAndCircle = view.findViewById(R.id.music_audio_circle2);
         if(!EasyPermissions.hasPermissions(getContext(),permission))
         {
             return;
@@ -76,7 +75,7 @@ public class MusicFragment extends Fragment {
             }
             @Override
             public void onAnimationRepeat(Animation animation) {
-            //重复动画
+                //重复动画
             }
         });
         musicRoundView.startAnimation(rotateAnimation);
@@ -91,4 +90,5 @@ public class MusicFragment extends Fragment {
         if (mAudioAndCircle!=null)
             mAudioAndCircle.release();
     }
+
 }

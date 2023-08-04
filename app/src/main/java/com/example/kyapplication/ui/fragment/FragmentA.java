@@ -19,7 +19,7 @@ import com.example.kyapplication.utils.ResourceUtil;
 public class FragmentA extends Fragment implements View.OnClickListener{
     private View rootView;
 
-    private Button btnBar,btnCircle,musicWave;
+    private Button btnBar,btnCircle,musicWave,musicWave2;
 
     @Nullable
     @Override
@@ -28,9 +28,11 @@ public class FragmentA extends Fragment implements View.OnClickListener{
         btnBar = rootView.findViewById(R.id.bar_view);
         btnCircle = rootView.findViewById(R.id.circle_view);
         musicWave = rootView.findViewById(R.id.music_wave);
+        musicWave2 = rootView.findViewById(R.id.music_wave2);
         btnCircle.setOnClickListener(this);
         btnBar.setOnClickListener(this);
         musicWave.setOnClickListener(this);
+        musicWave2.setOnClickListener(this);
         return rootView;
     }
 
@@ -67,6 +69,10 @@ public class FragmentA extends Fragment implements View.OnClickListener{
         {
 
             intent.putExtra("view",3);
+        }else if(view.getId() ==ResourceUtil.getId("music_wave2"))
+        {
+
+            intent.putExtra("view",4);
         }
 
         startActivity(intent);

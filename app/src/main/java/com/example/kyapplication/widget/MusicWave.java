@@ -67,8 +67,7 @@ public class MusicWave extends View {
         );
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        F.d("``width```"+width);
-        F.d("``height```"+height);
+
         setMeasuredDimension(width, height);
     }
 
@@ -92,12 +91,8 @@ public class MusicWave extends View {
             float scale = Math.min(bitmapScaleX, bitmapScaleY);
             //对bitmap进行缩放
             bitmap = Bitmap.createScaledBitmap(mImageBitmap,(int)scale,(int)scale,true);
-            F.d("````getHeight()="+getHeight());
-            F.d("````mImageBitmap.getHeight()="+mImageBitmap.getHeight());
             quality = 100 * (getHeight()/mImageBitmap.getHeight());
 
-
-            F.d("````quality="+quality);
             if (quality > 100)
             {
                 quality = 100;

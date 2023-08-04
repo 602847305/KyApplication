@@ -13,6 +13,9 @@
         android:id="@+id/to_music_fragment"
         app:destination="@id/musicFragment" />
 
+    <action
+        android:id="@+id/to_music_fragment2"
+        app:destination="@id/musicFragment2" />
 
     <fragment
         android:id="@+id/barFragment"
@@ -32,4 +35,10 @@
         android:name="com.example.kyapplication.ui.fragment.MusicFragment"
         android:label="MusicFragment"
         tools:layout="@layout/fragment_music_a" />
+
+    <fragment
+        android:id="@+id/musicFragment2"
+        android:name="com.example.kyapplication.ui.fragment.MusicFragment2"
+        android:label="MusicFragment2"
+        tools:layout="@layout/fragment_music_b" />
 </navigation>

@@ -29,7 +29,7 @@ public class ShowViewActivity extends BaseActivity {
         int flag = intent.getIntExtra("view",0);
         navController = Navigation.findNavController(this,R.id.navigation_fragment);
 
-        F.d("```````1````");
+
         int resId = R.id.circleFragment;
         switch (flag)
         {
@@ -42,6 +42,10 @@ public class ShowViewActivity extends BaseActivity {
             case 3:
                 resId= R.id.musicFragment;
                 F.d("```````musicFragment````");
+                break;
+            case 4:
+                resId= R.id.musicFragment2;
+                F.d("```````musicFragment``2``");
                 break;
         }
         NavGraph navGraph = navController.getNavInflater().inflate(R.navigation.fragment_show_view);
