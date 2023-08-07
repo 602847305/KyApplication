@@ -52,7 +52,7 @@ public class VisualizerHelper {
                     mCallback.onFftDataCapture(model);
                 }
             }
-        }, Visualizer.getMaxCaptureRate() / 2, false, true);
+        }, Visualizer.getMaxCaptureRate() / 3, false, true);
 
         mVisualizer.setEnabled(true);
     }
