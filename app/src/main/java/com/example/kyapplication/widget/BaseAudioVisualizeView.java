@@ -111,6 +111,7 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
 
     protected boolean isVisualizationEnabled = true;
     //visualization 音频回调
+    protected boolean isParseDataRefresh;
     @Override
     public void onFftDataCapture(float[] parseData) {
 
@@ -118,9 +119,10 @@ public abstract class  BaseAudioVisualizeView extends View implements VisualizeC
             return;
         }
         mWaveData = parseData;
+        isParseDataRefresh = true;
         invalidate();
-
     }
+
 
     //audio准备完毕
     @Override

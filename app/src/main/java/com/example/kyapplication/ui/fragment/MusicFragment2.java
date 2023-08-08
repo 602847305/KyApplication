@@ -47,7 +47,7 @@ public class MusicFragment2 extends Fragment {
         {
             return;
         }
-        mAudioAndCircle.setNumRays(80);
+        mAudioAndCircle.setNumRays(100);
 
 
         mAudioAndCircle.play("music2.mp3");

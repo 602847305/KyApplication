@@ -49,24 +49,25 @@ public class AudioAndCircle2 extends BaseAudioVisualizeView{
         radius = Math.min(w,h) * 0.26f;
     }
 
-    private float waveDataIndex = 0f;
-    private float waveDataOld[] ;
+    private float[] waveDataOld;
     @Override
     protected void drawChild(Canvas canvas) {
-        if (waveDataOld ==null || waveDataIndex!=getWaveData()[20])
+        if (isParseDataRefresh)
         {
+            isParseDataRefresh = false;
+
             waveDataOld = getWaveData();
-            waveDataIndex = waveDataOld[20];
             for (int i = 0; i < numRays; i++) {
                 float angle = (2 * (float) Math.PI * i) / numRays;
                 float startX = centerX + radius * (float) Math.cos(angle);
                 float startY = centerY + radius * (float) Math.sin(angle);
-                float endX = startX + 1.5f*getWaveData()[i] * (float) Math.cos(angle);
-                float endY = startY + 1.5f*getWaveData()[i] * (float) Math.sin(angle);
+                float endX = startX + 2*getWaveData()[i] * (float) Math.cos(angle);
+                float endY = startY + 2*getWaveData()[i] * (float) Math.sin(angle);
                 canvas.drawLine(startX, startY, endX, endY, linePaint);
             }
         }else
         {
+
             for (int i = 0; i < numRays; i++) {
                 float waveData = waveDataOld[i]-0.3f;
                 if (waveData <0)
@@ -77,8 +78,8 @@ public class AudioAndCircle2 extends BaseAudioVisualizeView{
                 float angle = (2 * (float) Math.PI * i) / numRays;
                 float startX = centerX + radius * (float) Math.cos(angle);
                 float startY = centerY + radius * (float) Math.sin(angle);
-                float endX = startX + 1.5f*waveData * (float) Math.cos(angle);
-                float endY = startY + 1.5f*waveData * (float) Math.sin(angle);
+                float endX = startX + 2*waveData * (float) Math.cos(angle);
+                float endY = startY + 2*waveData * (float) Math.sin(angle);
                 canvas.drawLine(startX, startY, endX, endY, linePaint);
             }
         }
@@ -123,7 +124,16 @@ public class AudioAndCircle2 extends BaseAudioVisualizeView{
     }
 
     private float[] changeWaveData(float[] waveData) {
-        float[] newWaveData = smooth(waveData,5);
+//        float[]data = removeMinValues(waveData,0.3);
+        waveData[numRays-1] = waveData[1];
+        waveData[numRays] = waveData[2];
+        waveData[numRays+1] = waveData[3];
+        waveData[numRays+2] = waveData[4];
+        waveData[numRays+3] = waveData[5];
+        waveData[numRays+4] = waveData[6];
+        waveData[numRays+5] = waveData[7];
+        waveData[numRays+6] = waveData[8];
+        float[] newWaveData = smooth(waveData,4);
 //        float[] newWaveData = SavitzkyGolayFilter.savitzkyGolay(waveData,5, 4);
 
         return newWaveData;
@@ -135,7 +145,8 @@ public class AudioAndCircle2 extends BaseAudioVisualizeView{
      * @param windowSize 窗口大小
      * @return 处理结果
      */
-    public static float[] smooth(float[] data, int windowSize) {
+    public float[] smooth(float[] data, int windowSize) {
+
             if (windowSize <= 0) {
                 throw new IllegalArgumentException("Window size must be greater than zero.");
             }
@@ -149,25 +160,26 @@ public class AudioAndCircle2 extends BaseAudioVisualizeView{
                     sum += data[j];
                     count++;
                 }
+//                sum+=data[i];
                 smoothedData[i] = (float) (sum / count);
             }
 
 
-            float[] smoothedData2 = new float[data.length];
-            int index_length = (int)(smoothedData2.length/4);
-
-            int ind = 0;
-            for (int i=0;i<smoothedData2.length;i++)
-            {
-                if(i<data.length-index_length) {
-                    smoothedData2[i] = smoothedData[index_length + i];
-
-                }else {
-                    smoothedData2[i] = smoothedData[ind];
-                    ind++;
-                }
-
-            }
+//                int j = 0;
+//                int zheng = (smoothedData.length/numRays);
+//                float[] newData = new float[numRays];
+//                for (int i = 0; i < numRays;) {
+//                    float fen4 = 0f;
+//                    for(int l=0;l<zheng;l++)
+//                    {
+//                        fen4+=smoothedData[i];
+////                        j++;
+//                        i++;
+//                    }
+//                    newData[j]=fen4/zheng;
+//                    j++;
+//
+//                }
 
 
             return smoothedData;
@@ -177,7 +189,7 @@ public class AudioAndCircle2 extends BaseAudioVisualizeView{
 
 
 //        public static void main(String[] args) {
-            float[] data = {1.2f, 2.6f, 3.8f, 4.1f, 5.9f, 6.3f, 7.5f, 8.0f, 9.4f};
+
 
 
 
@@ -253,6 +265,32 @@ public class AudioAndCircle2 extends BaseAudioVisualizeView{
             for (int num : newArr) {
                 System.out.print(num + " ");
             }
+        }
+
+        private float[] remove30P(float[] data,int size)
+        {
+            Arrays.sort(data); // 对数组进行排序
+            return Arrays.copyOfRange(data, size, data.length);
+        }
+
+
+
+
+        public float[] removeMinValues(float[] array, double percent) {
+            if (percent <= 0 || percent >= 1) {
+                throw new IllegalArgumentException("Invalid percentage value");
+            }
+
+            int numToRemove = (int) (array.length * percent);
+            if (numToRemove == 0) {
+                return array;
+            }
+
+            float[] sortedArray = array.clone();
+            Arrays.sort(sortedArray);
+            float[] result = Arrays.copyOfRange(sortedArray, numToRemove, array.length);
+
+            return result;
         }
 
 
