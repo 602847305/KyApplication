@@ -19,7 +19,7 @@ import com.example.kyapplication.utils.ResourceUtil;
 public class FragmentA extends Fragment implements View.OnClickListener{
     private View rootView;
 
-    private Button btnBar,btnCircle,musicWave,musicWave2;
+    private Button btnBar,btnCircle,musicWave,musicWave2,musicWave3,musicWave4,musicWave5;
 
     @Nullable
     @Override
@@ -29,10 +29,16 @@ public class FragmentA extends Fragment implements View.OnClickListener{
         btnCircle = rootView.findViewById(R.id.circle_view);
         musicWave = rootView.findViewById(R.id.music_wave);
         musicWave2 = rootView.findViewById(R.id.music_wave2);
+        musicWave3 = rootView.findViewById(R.id.music_wave3);
+        musicWave4 = rootView.findViewById(R.id.music_wave4);
+        musicWave5 = rootView.findViewById(R.id.music_wave5);
         btnCircle.setOnClickListener(this);
         btnBar.setOnClickListener(this);
         musicWave.setOnClickListener(this);
         musicWave2.setOnClickListener(this);
+        musicWave3.setOnClickListener(this);
+        musicWave4.setOnClickListener(this);
+        musicWave5.setOnClickListener(this);
         return rootView;
     }
 
@@ -41,6 +47,7 @@ public class FragmentA extends Fragment implements View.OnClickListener{
         F.d(view.getId());
         Intent intent = new Intent(getActivity(), ShowViewActivity.class);
         F.d("``````onClick````````");
+
         if(view.getId() ==ResourceUtil.getId("circle_view"))
         {
             intent.putExtra("view",1);
@@ -56,23 +63,21 @@ public class FragmentA extends Fragment implements View.OnClickListener{
         }else if(view.getId() ==ResourceUtil.getId("bar_view"))
         {
             intent.putExtra("view",2);
-//            Navigation.findNavController(view).navigate(R.id.action_fragmentA_to_barFragment);
-
-//            FragmentManager mFragmentManager;
-//            FragmentTransaction fragmentTransaction;
-//            mFragmentManager = getParentFragmentManager();
-//            fragmentTransaction = mFragmentManager.beginTransaction();
-//            fragmentTransaction.add(R.id.root,new BarFragment());
-//            fragmentTransaction.addToBackStack(null);
-//            fragmentTransaction.commit();
         }else if(view.getId() ==ResourceUtil.getId("music_wave"))
         {
-
             intent.putExtra("view",3);
         }else if(view.getId() ==ResourceUtil.getId("music_wave2"))
         {
-
             intent.putExtra("view",4);
+        }else if(view.getId() ==ResourceUtil.getId("music_wave3"))
+        {
+            intent.putExtra("view",5);
+        }else if(view.getId() ==ResourceUtil.getId("music_wave4"))
+        {
+            intent.putExtra("view",6);
+        }else if(view.getId() ==ResourceUtil.getId("music_wave5"))
+        {
+            intent.putExtra("view",7);
         }
 
         startActivity(intent);

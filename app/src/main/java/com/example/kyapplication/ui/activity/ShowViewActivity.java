@@ -47,6 +47,20 @@ public class ShowViewActivity extends BaseActivity {
                 resId= R.id.musicFragment2;
                 F.d("```````musicFragment``2``");
                 break;
+            case 5:
+                resId= R.id.showFragment5;
+                F.d("```````showFragment5``2``");
+                break;
+            case 6:
+                resId= R.id.showFragment6;
+                F.d("```````showFragment6``2``");
+                break;
+            case 7:
+                resId= R.id.showFragment7;
+                F.d("```````showFragment7``2``");
+                break;
+
+
         }
         NavGraph navGraph = navController.getNavInflater().inflate(R.navigation.fragment_show_view);
         navGraph.setStartDestination(resId);

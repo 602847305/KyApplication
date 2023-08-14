@@ -12,10 +12,18 @@
     <action
         android:id="@+id/to_music_fragment"
         app:destination="@id/musicFragment" />
-
     <action
         android:id="@+id/to_music_fragment2"
         app:destination="@id/musicFragment2" />
+    <action
+        android:id="@+id/to_fragment5"
+        app:destination="@id/showFragment5" />
+    <action
+        android:id="@+id/to_fragment6"
+        app:destination="@id/showFragment6" />
+    <action
+        android:id="@+id/to_fragment7"
+        app:destination="@id/showFragment7" />
 
     <fragment
         android:id="@+id/barFragment"
@@ -41,4 +49,20 @@
         android:name="com.example.kyapplication.ui.fragment.MusicFragment2"
         android:label="MusicFragment2"
         tools:layout="@layout/fragment_music_b" />
+
+    <fragment
+        android:id="@+id/showFragment5"
+        android:name="com.example.kyapplication.ui.fragment.MusicFragment2"
+        android:label="ShowFragment5"
+        tools:layout="@layout/fragment_5" />
+    <fragment
+        android:id="@+id/showFragment6"
+        android:name="com.example.kyapplication.ui.fragment.MusicFragment2"
+        android:label="ShowFragment6"
+        tools:layout="@layout/fragment_6" />
+    <fragment
+        android:id="@+id/showFragment7"
+        android:name="com.example.kyapplication.ui.fragment.MusicFragment2"
+        android:label="ShowFragment7"
+        tools:layout="@layout/fragment_7" />
 </navigation>
