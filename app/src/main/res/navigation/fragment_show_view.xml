@@ -52,7 +52,7 @@
 
     <fragment
         android:id="@+id/showFragment5"
-        android:name="com.example.kyapplication.ui.fragment.MusicFragment2"
+        android:name="com.example.kyapplication.ui.fragment.ShowFragment5"
         android:label="ShowFragment5"
         tools:layout="@layout/fragment_5" />
     <fragment
