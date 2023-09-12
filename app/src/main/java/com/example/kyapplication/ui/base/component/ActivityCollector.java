@@ -5,6 +5,9 @@ import android.app.Activity;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 管理Activity的集合
+ */
 public class ActivityCollector {
 
     private static ActivityCollector activityCollector;

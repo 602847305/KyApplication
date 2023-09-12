@@ -3,12 +3,19 @@ package com.example.kyapplication.ui.base.activity;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import com.example.kyapplication.ui.base.presenter.AbstractPresenter;
 import com.example.kyapplication.ui.base.view.AbstractView;
 
 import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+
 
 public abstract class BaseActivity<T extends AbstractPresenter> extends AbstractSimpleActivity implements
         HasSupportFragmentInjector,
@@ -46,22 +53,30 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
         return mFragmentDispatchingAndroidInjector;
     }
 
-    @Override
-    public void useNightMode(boolean isNight) {
-        if (isNight) {
-            AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_NO);
-        }
-        recreate();
-    }
+//    @Override
+//    public void useNightMode(boolean isNight) {
+//        if (isNight) {
+//            AppCompatDelegate.setDefaultNightMode(
+//                    AppCompatDelegate.MODE_NIGHT_YES);
+//        } else {
+//            AppCompatDelegate.setDefaultNightMode(
+//                    AppCompatDelegate.MODE_NIGHT_NO);
+//        }
+//        recreate();
+//    }
+
+//    @Override
+//    public void showErrorMsg(String errorMsg) {
+//        CommonUtils.showSnackMessage(this, errorMsg);
+//    }
+
 
     @Override
-    public void showErrorMsg(String errorMsg) {
-        CommonUtils.showSnackMessage(this, errorMsg);
+    public void setNightMode(boolean isNightMode) {
+
     }
+
+
 
     @Override
     public void showNormal() {
@@ -69,7 +84,7 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
     }
 
     @Override
-    public void showError() {
+    public void showErrorMsg() {
 
     }
 
@@ -105,12 +120,12 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
 
     @Override
     public void showToast(String message) {
-        CommonUtils.showMessage(this, message);
+//        CommonUtils.showMessage(this, message);
     }
 
     @Override
     public void showSnackBar(String message) {
-        CommonUtils.showSnackMessage(this, message);
+//        CommonUtils.showSnackMessage(this, message);
     }
 
 }

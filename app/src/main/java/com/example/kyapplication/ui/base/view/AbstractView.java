@@ -6,11 +6,6 @@ public interface AbstractView {
      */
     void setNightMode(boolean isNightMode);
 
-    /**
-     * 展示错误消息
-     * @param errorMsg 错误消息
-     */
-    void showErrorMessage(String errorMsg);
 
     /**
      * showNormal
@@ -20,7 +15,7 @@ public interface AbstractView {
     /**
      * Show error
      */
-    void showError();
+    void showErrorMsg();
 
     /**
      * Show loading
